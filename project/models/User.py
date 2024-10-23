@@ -1,5 +1,6 @@
 from neo4j import GraphDatabase, Driver, AsyncGraphDatabase, AsyncDriver
 import re
+import random
 
 URI = "neo4j+ssc://b41618ba.databases.neo4j.io"
 AUTH = ("neo4j", "kXhTM8agdagzrvztaIDVKYRFdA6KEohr77HM8UUZLRo")
@@ -24,47 +25,48 @@ def order_car(car_id, customer_id):
     
 class Employee:
     
-    employee_count = 0
-    
-    def __init__(self, name, adress, branch, id):
+    def __init__(self, name, adress, branch):
         self.name = name 
         self.adress = adress
         self.branch = branch
-        self.id = id
+        self.id = random.randint(999, 9999)
 
 
     # Create a new employee and add to database
-    def create_employee(self, name, adress, branch):
-        
-        new_employee_id = self.employee_count
-        
-        new_employee = Employee(name, adress, branch, new_employee_id)
-        
-        return new_employee
-    
-    # Get employee from database
-    def read_employee(self):
-        pass
-    
-    # Update existing values for employee in Database
-    def update_employee(self):
-        pass
-    
-    # Delete Employee from database
-    def delete_employee(self):
-        pass
+def create_employee(name, adress, branch):
+    new_employee = Employee(name,  adress, branch)
+    query = "MERGE (e:EMPLOYEE {name: $name, adress: $adress, branch: $branch id: $id}) RETURN e;"
+    try:
+        data = _get_connection().execute_query(query, 
+                name=new_employee.name, adress=new_employee.adress, branch=new_employee.branch, id=new_employee.id)
+    except:
+        print("Fuck me!!!!!")
+
+# Seminar leader sin kode
+def save_car(make, model, reg, year, capacity, location, status):
+    cars = _get_connection().execute_query("MERGE (a:Car{make: $make, model: $model, reg: $reg, year: $year, capacity:$capacity, location:$location, status:$status}) RETURN a;", make = make, model = model, reg = reg, year = year, capacity = capacity, location = location, status = status)
+
+# Get employee from database
+def read_employee():
+    pass
+
+# Update existing values for employee in Database
+def update_employee():
+    pass
+
+# Delete Employee from database
+def delete_employee():
+    pass
         
 
 class Car:
     
-    car_count = 0
-    
-    def __init__(self, brand, model, year, location, id, status=None):
+    def __init__(self, brand, model, year, location, status=None):
         self.brand = brand
         self.model = model
         self.year = year
         self.loction = location
-        self.id = id
+        self.id = random.randint(999, 9999)
         self.status = status
 
     # Create a new car and add to database
@@ -90,19 +92,16 @@ class Car:
     
 class Customer:
     
-    customer_count = 0
-    
-    def __init__(self, name, age, adress, id):
+    def __init__(self, name, age, adress):
         self.name = name
         self.age = age
         self.adress = adress
-        self.id = id
+        self.id = random.randint(999, 9999)
 
     # Create a new Customer and add to database
     def create_customer(self, name, age, adress):
-        new_customer_id = self.customer_count
         
-        new_customer = Customer(name, age, adress, new_customer_id)
+        new_customer = Customer(name, age, adress)
         
         return new_customer
     
@@ -138,5 +137,5 @@ def delete_main(object_type, object):
         # remove Employee from database
         pass
 
-
+create_employee("Lars", "No", "HR")
 driver.close()
