@@ -58,7 +58,6 @@ def delete_employee(employee_id):
     return employee, print("employee deleted from database")
     
 
-        
 class Car:
     
     def __init__(self, brand, model, year, location, status=True):
@@ -79,17 +78,21 @@ def create_car(brand, model, year, location):
 
     return car, print("car added to database")
 
-# Get car from database
+# Get car from database by using car id
 def read_car(self):
-    pass
+    car = _get_connection().execute_query("MATCH (a:Car {id: $id}) RETURN a;", id=self.id)
+    return car, print("car found in database")
+   
+# Update existing values for car in Database by searching for the car id
+def update_car(id, brand, model, year, location):
+    car = _get_connection().execute_query("MATCH (a:Car {id: $id}) SET a.brand = $brand, a.model = $model, a.year = $year, a.location = $location RETURN a;", 
+                                        id=id, brand=brand, model=model, year=year, location=location)
+    return car, print("car updated in database")
 
-# Update existing values for car in Database
-def update_car(self):
-    pass
-
-# Delete car from database
-def delete_car(self):
-    pass
+# Delete car from database by using car id
+def delete_car(id):
+    car = _get_connection().execute_query("MATCH (a:Car {id: $id}) DELETE a;", id=id)
+    return car, print("car deleted from database")
     
     
 class Customer:
@@ -107,18 +110,22 @@ def create_customer(name, age, adress):
     
     customer = _get_connection().execute_query("MERGE (c:CUSTOMER {adress: $adress, name: $name, id: $id, age: $age}) RETURN c;",
                                                adress=new_customer.adress, name=new_customer.name, age=new_customer.age)
-    return customer
+    return customer, print("customer added to database")
 
 # Get Customer from database
-def read_customer():
-    pass
+def read_customer(id):
+    customer = _get_connection().execute_query("MATCH (c:Customer {id: $id}) RETURN c;", id=id)
+    return customer, print("customer found in database")
 
 # Update existing values for Customer in Database
-def update_customer():
-    pass
+def update_customer(id, name, age, adress):
+    customer = _get_connection().execute_query("MATCH (c:Customer {id: $id}) SET c.name = $name, c.age = $age, c.adress = $adress RETURN c;", 
+                                        id=id, name=name, age=age, adress=adress)
+    return customer, print("customer updated in database")
 
 # Delete Customer from database
-def delete_customer():
-    pass
+def delete_customer(id):
+    customer = _get_connection().execute_query("MATCH (c:Customer {id: $id}) DELETE c;", id=id)
+    return customer, print("customer deleted from database")
 
 driver.close
