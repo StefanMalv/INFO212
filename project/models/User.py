@@ -31,21 +31,34 @@ class Employee:
         self.branch = branch
         self.id = random.randint(999, 9999)
 
-
+def create_employee(name, adress, branch):
+    new_employee = Employee(name, adress, branch)
+    
+    employee = _get_connection().execute_query("MERGE (a:Employee {name: $name, adress: $adress, branch: $branch, id: $id}) RETURN a;", 
+                                        name=new_employee.name, adress=new_employee.adress, branch=new_employee.branch, id=new_employee.id)
+    
+    return employee, print("employee added to database")
 
 # Get employee from database
-def read_employee():
-    pass
+def read_employee(employee_id):
+    employee = _get_connection().execute_query("MATCH (a:Employee {id: $id}) RETURN a;", id=employee_id)
+    return employee, print("employee found in database")
+    
 
 # Update existing values for employee in Database
-def update_employee():
-    pass
+def update_employee(employee_id, name, adress, branch):
+    employee = _get_connection().execute_query("MATCH (a:Employee {id: $id}) SET a.name = $name, a.adress = $adress, a.branch = $branch RETURN a;", 
+                                        id=employee_id, name=name, adress=adress, branch=branch)
+    return employee, print("employee updated in database")
+
 
 # Delete Employee from database
-def delete_employee():
-    pass
-        
+def delete_employee(employee_id):
+    employee = _get_connection().execute_query("MATCH (a:Employee {id: $id}) DELETE a;", id=employee_id)
+    return employee, print("employee deleted from database")
+    
 
+        
 class Car:
     
     def __init__(self, brand, model, year, location, status=True):
@@ -56,25 +69,27 @@ class Car:
         self.id = random.randint(999, 9999)
         self.status = status
 
-    # Create a new car and add to database
-    def create_car(self, brand, model, year, location):
-        new_car_id = self.car_count
-        
-        new_car = Car(brand, model, year, location, new_car_id)
-        
-        return new_car
-    
-    # Get car from database
-    def read_car(self):
-        pass
-    
-    # Update existing values for car in Database
-    def update_car(self):
-        pass
-    
-    # Delete car from database
-    def delete_car(self):
-        pass
+# Create a new car and add to database
+# Seminar leader sin kode
+def create_car(brand, model, year, location):
+    new_car = Car(brand, model, year, location)
+
+    car = _get_connection().execute_query("MERGE (a:Car {year: $year, location: $location, model: $model, id: $id, brand: $brand, status: $status}) RETURN a;", 
+                                        year=new_car.year, location=new_car.location, model=new_car.model, id=new_car.id, brand=new_car.brand, status=new_car.status)
+
+    return car, print("car added to database")
+
+# Get car from database
+def read_car(self):
+    pass
+
+# Update existing values for car in Database
+def update_car(self):
+    pass
+
+# Delete car from database
+def delete_car(self):
+    pass
     
     
 class Customer:
