@@ -32,14 +32,6 @@ class Employee:
         self.id = random.randint(999, 9999)
 
 
-# Seminar leader sin kode
-def save_car(brand, model, year, location):
-    new_car = Car(brand, model, year, location)
-    
-    car = _get_connection().execute_query("MERGE (a:Car {year: $year, location: $location, model: $model, id: $id, brand: $brand, status: $status}) RETURN a;", 
-                                           year=new_car.year, location=new_car.location, model=new_car.model, id=new_car.id, brand=new_car.brand, status=new_car.status)
-    
-    return car, print("car added to database")
 
 # Get employee from database
 def read_employee():
@@ -93,44 +85,25 @@ class Customer:
         self.adress = adress
         self.id = random.randint(999, 9999)
 
-    # Create a new Customer and add to database
-    def create_customer(self, name, age, adress):
-        
-        new_customer = Customer(name, age, adress)
-        
-        return new_customer
+# Create a new Customer and add to database
+def create_customer(name, age, adress):
     
-    # Get Customer from database
-    def read_customer(self):
-        pass
+    new_customer = Customer(name, age, adress)
     
-    # Update existing values for Customer in Database
-    def update_customer(self):
-        pass
-    
-    # Delete Customer from database
-    def delete_customer(self):
-        pass
+    customer = _get_connection().execute_query("MERGE (c:CUSTOMER {adress: $adress, name: $name, id: $id, age: $age}) RETURN c;",
+                                               adress=new_customer.adress, name=new_customer.name, age=new_customer.age)
+    return customer
 
-
-# main function for createing objects
-def create_main(object_type, object):
+# Get Customer from database
+def read_customer():
     pass
 
-#main function for deleteing one of the three object 
-def delete_main(object_type, object):
-    
-    if type(object_type) is type(Customer):
-        # remove Customer from database
-        pass
-    
-    if type(object_type) is type(Car):
-        # remove Car from database
-        pass
-    
-    if type(object_type) is type(Employee):
-        # remove Employee from database
-        pass
+# Update existing values for Customer in Database
+def update_customer():
+    pass
 
-save_car("Porsche", "911", 2023, "Nygårdsparken")
-driver.close()
+# Delete Customer from database
+def delete_customer():
+    pass
+
+driver.close
