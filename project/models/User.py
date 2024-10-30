@@ -32,19 +32,14 @@ class Employee:
         self.id = random.randint(999, 9999)
 
 
-    # Create a new employee and add to database
-def create_employee(name, adress, branch):
-    new_employee = Employee(name,  adress, branch)
-    query = "MERGE (e:EMPLOYEE {name: $name, adress: $adress, branch: $branch id: $id}) RETURN e;"
-    try:
-        data = _get_connection().execute_query(query, 
-                name=new_employee.name, adress=new_employee.adress, branch=new_employee.branch, id=new_employee.id)
-    except:
-        print("Fuck me!!!!!")
-
 # Seminar leader sin kode
-def save_car(make, model, reg, year, capacity, location, status):
-    cars = _get_connection().execute_query("MERGE (a:Car{make: $make, model: $model, reg: $reg, year: $year, capacity:$capacity, location:$location, status:$status}) RETURN a;", make = make, model = model, reg = reg, year = year, capacity = capacity, location = location, status = status)
+def save_car(brand, model, year, location):
+    new_car = Car(brand, model, year, location)
+    
+    car = _get_connection().execute_query("MERGE (a:Car {year: $year, location: $location, model: $model, id: $id, brand: $brand, status: $status}) RETURN a;", 
+                                           year=new_car.year, location=new_car.location, model=new_car.model, id=new_car.id, brand=new_car.brand, status=new_car.status)
+    
+    return car, print("car added to database")
 
 # Get employee from database
 def read_employee():
@@ -61,11 +56,11 @@ def delete_employee():
 
 class Car:
     
-    def __init__(self, brand, model, year, location, status=None):
+    def __init__(self, brand, model, year, location, status=True):
         self.brand = brand
         self.model = model
         self.year = year
-        self.loction = location
+        self.location = location
         self.id = random.randint(999, 9999)
         self.status = status
 
@@ -137,5 +132,5 @@ def delete_main(object_type, object):
         # remove Employee from database
         pass
 
-create_employee("Lars", "No", "HR")
+save_car("Porsche", "911", 2023, "Nygårdsparken")
 driver.close()
