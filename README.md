@@ -2,7 +2,7 @@ Based on the code provided, here's a README file draft for your project:
 
 ---
 
-# Project Title: Car Rental Management System
+# Car Rental Management System
 
 ## Description
 
