@@ -1,4 +1,4 @@
-from project.templates import app
+from project import app
 from flask import render_template, request, redirect, url_for
 import project.models.User as user
 
@@ -67,7 +67,7 @@ def index_create_car():
             return "Could not create car"
 
 @app.route("/read_car", methods=["GET"])
-def index_read_employee():
+def index_read_car():
     car_id_read = request.form["car_id"]
     
     if request.method == "POST":
@@ -78,7 +78,7 @@ def index_read_employee():
             return "Could not return car"
 
 @app.route("/delete_car", methods=["POST"])
-def index_delete_employee():
+def index_delete_car():
     car_id_delete = request.form["employee_id"]
     
     if request.method == "POST":
@@ -109,9 +109,9 @@ def index_update_car():
 # Employee methods        
 @app.route("/create_emploee", methods=["POST"])
 def index_create_employee():
-    employee_name = request.form("name")
-    employee_adress = request.form("adress")
-    employee_branch = request.form("branch")
+    employee_name = request.form["name"]
+    employee_adress = request.form["adress"]
+    employee_branch = request.form["branch"]
     
     if request.method == "POST":
         try:
@@ -127,10 +127,9 @@ def index_read_employee():
     
     if request.method == "POST":
         try:
-            user.read_employee(employee_id)
-        
+            user.read_employee(employee_id)   
         except:
-            return "Could not return employee"
+            return "Could not read employee"
 
 @app.route("/delete_employee", methods=["POST"])
 def index_delete_employee():
@@ -158,7 +157,6 @@ def index_update_employee():
         except:
             return "Could not update employee"
         
-
 # Customer methods
 @app.route("/create_customer", methods=["POST"])
 def index_create_customer():
