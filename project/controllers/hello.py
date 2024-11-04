@@ -1,5 +1,5 @@
 from project import app
-from flask import render_template, request, redirect, url_for
+from flask import request
 import project.models.User as user
 
 # Customer Car methods
@@ -10,7 +10,7 @@ def index_order_car():
     
     if request.method == "POST":
         try:   
-           user.order_car(car_id, customer_id)
+           return user.order_car(car_id, customer_id), "Car has beem rented"
            
         except:
                 return "Could not order car"
@@ -208,4 +208,3 @@ def index_delete_customer():
         
         except:
             return "Could not delete customer"
-        
