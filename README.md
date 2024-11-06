@@ -1,7 +1,3 @@
-Based on the code provided, here's a README file draft for your project:
-
----
-
 # Car Rental Management System
 
 ## Description
@@ -73,10 +69,3 @@ This project is a web-based application for managing a car rental service. It en
   - `create_employee`, `save_car`, `create_customer`: Functions for adding new entries to the Neo4j database.
   - Database CRUD functions for each entity type, e.g., `read_employee`, `update_employee`.
 
-## Contributing
-
-Contributions are welcome! Please open a pull request or issue if you find any bugs or have suggestions.
-
----
-
-Let me know if there are additional features or setup details you'd like to include.
