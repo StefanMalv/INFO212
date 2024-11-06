@@ -1,71 +1,119 @@
+# About this project
+This project is a Car Rental Management System developed as part of the INFO212 course at the University of Bergen. The purpose of this project is to provide a functional car rental management solution, allowing users to perform operations such as ordering, renting, and returning cars, along with managing car, customer, and employee data. The system is built using Flask, Neo4j, and Python.
+
 # Car Rental Management System
 
-## Description
+This is a Car Rental Management System built using Flask, Neo4j, and Python. The system allows customers to order, rent, and return cars, manage CRUD operations on cars, customers, and employees, and interact with the database to retrieve and update car rental information.
 
-This project is a web-based application for managing a car rental service. It enables users to create, read, update, and delete (CRUD) data entries related to employees, cars, and customers, and leverages a Neo4j database for data storage. The application is built using Flask for the web interface, allowing user interaction via forms and routes, and Neo4j for graph-based data management.
+## Table of Contents
 
-## Features
-
-1. **User Interaction**: Accepts user input to retrieve specific user data.
-2. **Database Management**: Supports creating, reading, updating, and deleting records for employees, cars, and customers.
-3. **Neo4j Integration**: Establishes and manages a connection to a Neo4j database for persistent data storage.
+- [Project Structure](#project-structure)
+- [Features](#features)
+- [Endpoints](#endpoints)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Dependencies](#dependencies)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Project Structure
 
-- **hello.py**: Handles the main Flask route, rendering an index page to display user data or errors based on input.
-- **User.py**: Contains the classes and functions necessary for interacting with Neo4j, including:
-  - `Employee`, `Car`, and `Customer` classes for representing entities.
-  - Database CRUD operations for each entity.
-  - Database connection logic with Neo4j.
+```
+project/
+├── app.py                   # Flask application setup
+├── models/
+│   └── User.py              # Contains functions for car order, rental, and return processes
+├── main.py                  # Main application entry point
+└── README.md                # Project documentation (this file)
+```
 
-## Setup and Installation
+## Features
 
-### Prerequisites
+- **Order a Car**: Allows customers to place an order for a car if available.
+- **Cancel Order**: Allows customers to cancel an existing car order.
+- **Rent a Car**: Allows customers to rent a car they've previously ordered.
+- **Return a Car**: Allows customers to return a rented car and update its status.
+- **CRUD Operations**:
+  - **Car Management**: Create, read, update, and delete cars in the database.
+  - **Customer Management**: Create, read, update, and delete customer information.
+  - **Employee Management**: Create, read, update, and delete employee information.
 
-- Python 3.x
-- Flask
-- Neo4j
-- Neo4j Python Driver
+## Endpoints
 
-### Installation
+### Car Operations
 
-1. **Clone the Repository**:
+- **Order a Car**: `POST /order-car`
+- **Cancel Order**: `POST /cancel-order-car`
+- **Rent a Car**: `POST /rent-car`
+- **Return a Car**: `POST /return-car`
+
+### CRUD Operations
+
+- **Car CRUD**:
+  - Create Car: `create_car()`
+  - Read Car: `read_car()`
+  - Update Car: `update_car()`
+  - Delete Car: `delete_car()`
+
+- **Customer CRUD**:
+  - Create Customer: `create_customer()`
+  - Read Customer: `read_customer()`
+  - Update Customer: `update_customer()`
+  - Delete Customer: `delete_customer()`
+
+- **Employee CRUD**:
+  - Create Employee: `create_employee()`
+  - Read Employee: `read_employee()`
+  - Update Employee: `update_employee()`
+  - Delete Employee: `delete_employee()`
+
+## Installation
+
+1. **Clone the repository**:
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/StefanMalv/INFO212.git
+   cd car-rental-system
    ```
-2. **Install Required Packages**:
+
+2. **Install Dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
-   Ensure you add Flask and Neo4j packages in `requirements.txt` if not already included.
 
-3. **Neo4j Database Setup**:
-   - Set up a Neo4j database instance.
-   - Replace `URI` and `AUTH` credentials in `User.py` with your own database details.
+3. **Set Up Neo4j**:
+   - Ensure Neo4j is running and accessible.
+   - Update `URI` and `AUTH` in the code with your Neo4j credentials.
 
-4. **Run the Flask Application**:
+4. **Run the Application**:
    ```bash
-   export FLASK_APP=hello.py
-   flask run
+   python main.py
    ```
+
+   The application will start at `http://127.0.0.1:5000`.
 
 ## Usage
 
-1. Navigate to the homepage at `http://localhost:5000`.
-2. Enter a username in the form to retrieve user data or interact with the application.
+- Use any API client (like [Postman](https://www.postman.com/)) to send requests to the endpoints.
+- For each endpoint, provide the necessary data:
+  - `car_id`, `customer_id` for most operations.
+  - `status` for `return_car`.
+- Example of a POST request to order a car:
+  ```http
+  POST /order-car
+  Content-Type: application/json
+  {
+      "car_id": "123",
+      "customer_id": "456"
+  }
+  ```
 
-## Code Overview
+## Dependencies
 
-### hello.py
-- **Routes**: Manages the `/` route for GET and POST requests.
-- **Data Retrieval**: Calls functions to fetch user data based on the input username.
+- **Flask**: Web framework for Python.
+- **Neo4j**: Graph database to manage car, customer, and employee data.
+- **neo4j-driver**: Official driver for connecting to Neo4j from Python.
 
-### User.py
-- **Classes**: 
-  - `Employee`: Represents an employee and includes methods for database operations.
-  - `Car`: Represents a car and includes methods for database operations.
-  - `Customer`: Represents a customer and includes methods for database operations.
-- **Functions**:
-  - `create_employee`, `save_car`, `create_customer`: Functions for adding new entries to the Neo4j database.
-  - Database CRUD functions for each entity type, e.g., `read_employee`, `update_employee`.
+
+
+This README provides a basic overview of the Car Rental Management System, including installation steps, features, and usage instructions.
 
